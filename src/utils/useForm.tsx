@@ -101,7 +101,7 @@ export default function useForm() {
         {/*SERVER NAJ DODA ŠE "ID"*/ }
     }
 
-    const submit = (e: any, closeFunc: (newState: boolean) => void) => {
+    const submit = (e: any) => {
         e.preventDefault();
         const htmlArr = e.target.elements;
         if (htmlArr) {
@@ -119,7 +119,6 @@ export default function useForm() {
                 toast.error("Manjka IZOBRAŽEVALNI PROGRAM.");
             } else {
                 formalize(htmlArr, schoolTier, school);
-                closeFunc(false);
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
             }

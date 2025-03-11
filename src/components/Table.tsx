@@ -1,16 +1,16 @@
 import { useEffect } from "preact/hooks";
 import { Data } from "../type"
+
 import usePlacanStore from "../usePlacanStore";
 import useFilter from "../utils/useFilter";
+import useBasic from "../utils/useBasic";
+
 import LongTable from "./LongTable";
 import WideTable from "./WideTable";
+
 import "./table.css";
 
-export default function Table(
-    { formOpen }: {
-        formOpen: boolean,
-    }
-) {
+export default function Table() {
 
     const fakeData: Data[] = [
         {
@@ -90,6 +90,8 @@ export default function Table(
         window.onscroll = function () { scrollFunction() };
     }, []);
 
+    const { moveToTop } = useBasic();
+
     function scrollFunction() {
         const btn = document.getElementById("upBtn");
         if (btn) {
@@ -101,12 +103,7 @@ export default function Table(
         }
     }
 
-    const moveToTop = () => {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
-
-    return !formOpen ? (<>
+    return (<>
 
         <LongTable />
 
@@ -125,6 +122,6 @@ export default function Table(
             onClick={() => moveToTop()}>
             Vrh strani
         </button>
-    </>) :
-        <></>
+
+    </>)
 }

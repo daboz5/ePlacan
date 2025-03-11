@@ -1,6 +1,8 @@
 import { Link } from "preact-router/match"
+
 import usePlacanStore from "../usePlacanStore";
 import useLocalStorage from "../utils/useLocalStorage";
+
 import "./onas.css";
 
 export default function ONas() {
@@ -11,14 +13,15 @@ export default function ONas() {
     return (<>
 
         <nav class={"nav colFlex"}>
-            <h1 class={"defMouse"}>
-                Piratski program
-            </h1>
             <Link
                 href="/">
-                <button class={"navBtn"}>ePlačan</button>
+                <button class={"navBtn"}>Nazaj</button>
             </Link>
         </nav>
+
+        <h2 class={"defMouse"}>
+            Piratski program
+        </h2>
 
         <section
             id="explainBox"
@@ -30,6 +33,7 @@ export default function ONas() {
             <p>Delodajalcev, ker s ponudbo nadstandardnih pogojev lažje prepričajo delavce v vrednost svoje ponudbe.</p>
             <p>Spodbujamo delavce in delodajalce, spodbujamo konkurenco, spodbujamo dobre delovne prakse.</p>
         </section>
+
         <section
             id="promoBox"
             class={"flex"}>

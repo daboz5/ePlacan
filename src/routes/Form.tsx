@@ -1,19 +1,20 @@
+import { Link } from "preact-router";
+
 import usePlacanStore from "../usePlacanStore";
 import SelectRadio from "../utils/SelectRadio"
+import useBasic from "../utils/useBasic";
 import useForm from "../utils/useForm";
+
 import "./form.css";
 
-export default function Form(
-    { open, setOpen }: {
-        open: boolean,
-        setOpen(newState: boolean): void
-    }
-) {
+export default function Form() {
 
     const {
         dropDowns,
         setDropDownsOpen
     } = usePlacanStore();
+
+    const { moveToTop } = useBasic();
 
     const {
         schoolTier,
@@ -21,22 +22,22 @@ export default function Form(
         submit,
         setEducationTier,
         getSchoolPrograms,
-        checkFormSubmitions,
     } = useForm();
 
-    return !open ? (
-        <button
-            id="shareInfoBtn"
-            onClick={() => checkFormSubmitions(setOpen)}>
-            Želim deliti svoje stanje!
-        </button>
-    ) :
-        (<>
+    return (
+        <>
+
+            <nav class={"nav colFlex"}>
+                <Link
+                    href="/">
+                    <button class={"navBtn"}>Nazaj</button>
+                </Link>
+            </nav>
 
             <form
                 id="form"
                 class={"colFlex"}
-                onSubmit={(e) => submit(e, setOpen)}>
+                onSubmit={(e) => submit(e)}>
 
                 <label class={"formInput colFlex"}>
                     <span class={"formInputTitle"}>
@@ -134,12 +135,14 @@ export default function Form(
                     id="formBtnBox"
                     class={"colFlex"}>
                     <div>
-                        <button
-                            class={"formBtn colFlex"}
-                            type={"button"}
-                            onClick={() => setOpen(false)}>
-                            Prekliči
-                        </button>
+                        <Link href="/">
+                            <button
+                                class={"formBtn colFlex"}
+                                type={"button"}
+                                onClick={() => moveToTop()}>
+                                Prekliči
+                            </button>
+                        </Link>
                         <button
                             class={"formBtn colFlex"}
                             type={"reset"}>
@@ -178,5 +181,5 @@ export default function Form(
             </form>
 
         </>
-        )
+    )
 }

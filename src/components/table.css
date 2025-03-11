@@ -4,9 +4,10 @@ table {
 }
 
 caption {
-    font-size: 1.3em;
+    font-size: 1.2em;
+    font-style: italic;
     font-weight: 600;
-    margin: 0 auto 15px;
+    margin: 15px auto 5px;
 }
 
 .rowUndeline {
