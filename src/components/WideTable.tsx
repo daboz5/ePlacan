@@ -4,8 +4,8 @@ import "./table.css";
 export default function WideTable() {
 
     const {
+        data,
         shownData,
-        removedData,
         setFilter,
     } = usePlacanStore();
 
@@ -45,28 +45,28 @@ export default function WideTable() {
             </thead>
 
             <tbody>
-                {shownData.map(
+                {data.map(
                     (info) => {
                         return (
                             <tr>
-                                <td>{!removedData["job"] ? info.job : ""}</td>
-                                <td>{!removedData["hours"] ? info.hours + " ur" : ""}</td>
+                                <td>{shownData["job"] ? info.job : ""}</td>
+                                <td>{shownData["hours"] ? info.hours + " ur" : ""}</td>
                                 <td>
-                                    {!removedData["schoolTier"] ? <span class={"block"}>
+                                    {shownData["schoolTier"] ? <span class={"block"}>
                                         {info.schoolTier + ". stopnja"}
                                     </span> : <></>}
-                                    {!removedData["school"] ? <span class={"block"}>
+                                    {shownData["school"] ? <span class={"block"}>
                                         {info.school}
                                     </span> : <></>}
                                 </td>
-                                <td>{!removedData["years"] ? `${info.years} let${info.years === 1 ?
+                                <td>{shownData["years"] ? `${info.years} let${info.years === 1 ?
                                     "o" :
                                     info.years === 2 ?
                                         "i" :
                                         info.years === 3 || info.years === 4 ?
                                             "a" :
                                             ""}` : ""}</td>
-                                <td>{!removedData["pay"] ?
+                                <td>{shownData["pay"] ?
                                     info.pay
                                         .toString()
                                         .split("")

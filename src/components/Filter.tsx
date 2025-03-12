@@ -1,7 +1,9 @@
 import { useState } from "preact/hooks";
 import ArrowUp from "../assets/ArrowUp";
+
 import usePlacanStore from "../usePlacanStore";
 import useFilter from "../utils/useFilter";
+
 import "./filter.css";
 
 export default function Filter() {
@@ -9,9 +11,10 @@ export default function Filter() {
     const {
         filter,
         backup,
-        removedData,
+        shownData,
         setFilter,
-        setShownData
+        setData,
+        setShownData,
     } = usePlacanStore();
 
     const {
@@ -23,12 +26,24 @@ export default function Filter() {
         querryFilter,
         rangeFilter,
         remoteDataType,
+        filterWordSwitch,
     } = useFilter();
 
     const [keepArrData, setKeepArrData] = useState(true);
 
+    const defaultFilter = {
+        id: false,
+        job: true,
+        hours: true,
+        schoolTier: true,
+        school: true,
+        years: true,
+        pay: true
+    }
+
     const tierBtn = (btnNum: number) => {
         return <button
+            id={`schoolTierBtn${btnNum}`}
             class={"schoolTierBtn"}
             style={{
                 backgroundColor: activeSchoolTiers[btnNum - 1].status ? "" : "rgba(26, 26, 26, 0.8)"
@@ -45,6 +60,8 @@ export default function Filter() {
         <div id="filterPosition" class={"colFlex"}>
             <div id="filterBox" class={"colFlex"}>
 
+                {/* ZAPRI FILTER */}
+
                 <button
                     id="filterExitBtn"
                     class={"noResizeBtn"}
@@ -52,18 +69,22 @@ export default function Filter() {
                     Zapri filter
                 </button>
 
+                {/* OBRNI SEZNAM */}
+
                 <div class={"filterOrientation flex"}>
                     <button
                         class={"downBtn flex"}
-                        onClick={() => setShownData(sortForward(filter, backup))}>
+                        onClick={() => setData(sortForward(filter, backup))}>
                         <ArrowUp id={"nazivGor"} />
                     </button>
                     <button
                         class={"upBtn flex"}
-                        onClick={() => setShownData(sortBackward(filter, backup))}>
+                        onClick={() => setData(sortBackward(filter, backup))}>
                         <ArrowUp id={"nazivGor"} up={true} />
                     </button>
                 </div>
+
+                {/* FILTER BESED */}
 
                 {filter === "job" ?
                     <span class={"colFlex"}>
@@ -82,6 +103,8 @@ export default function Filter() {
                         </button>
                     </span> :
                     <></>}
+
+                {/* FILTER DELOVNIH UR */}
 
                 {filter === "hours" ?
                     <span class={"colFlex"}>
@@ -109,19 +132,22 @@ export default function Filter() {
                     </span> :
                     <></>}
 
+                {/* FILTER ŠOLSKIH PROGRAMOV */}
+
                 {filter === "school" ?
                     <>
-                        <div class={"filterSchoolTierBtns flex"}>
+
+                        <div id={"filterSchoolTierBtns"}>
+                            <caption>Stopnja izobrazbe</caption>
                             {tierBtn(1)}
                             {tierBtn(2)}
                             {tierBtn(3)}
-                        </div>
-                        <div class={"filterSchoolTierBtns flex"}>
                             {tierBtn(4)}
                             {tierBtn(5)}
                             {tierBtn(6)}
                             {tierBtn(7)}
                         </div>
+
                         <span class={"colFlex"}>
                             <input
                                 id="schoolFilterInput"
@@ -136,9 +162,12 @@ export default function Filter() {
                                 onClick={() => querryFilter("school", "schoolFilterInput", keepArrData)}>
                                 Potrdi
                             </button>
+
                         </span>
                     </> :
                     <></>}
+
+                {/* FILTER DELOVNIH LET */}
 
                 {filter === "years" ?
                     <span class={"colFlex"}>
@@ -166,6 +195,8 @@ export default function Filter() {
                     </span> :
                     <></>
                 }
+
+                {/* FILTER PLAČ */}
 
                 {
                     filter === "pay" ?
@@ -195,21 +226,13 @@ export default function Filter() {
                         <></>
                 }
 
-                <button
-                    class={"dataBtn colFlex"}
-                    onClick={() => setKeepArrData(!keepArrData)}>
-                    {keepArrData ?
-                        "Uporabi trenutni seznam" :
-                        "Uporabi celotni seznam"}
-                </button>
-
                 {filter === "school" ?
                     <button
                         class={"dataBtn"}
                         onClick={() => remoteDataType("schoolTier")}>
-                        {!removedData[filter] ?
-                            `Izloči iz seznama stopnjo` :
-                            `Dodaj v seznam stopnjo`
+                        {shownData[filter] ?
+                            `Izloči stopnjo izobrazbe` :
+                            `Vključi stopnjo izobrazbe`
                         }
                     </button> :
                     <></>}
@@ -217,15 +240,32 @@ export default function Filter() {
                 <button
                     class={"dataBtn"}
                     onClick={() => remoteDataType(filter)}>
-                    {!removedData[filter] ?
-                        `Izloči iz seznama${!removedData[filter] ? " šolo" : ""}` :
-                        `Dodaj v seznam${!removedData[filter] ? " šolo" : ""}`}
+                    {shownData[filter] ?
+                        `Skrij iz seznama ${filterWordSwitch(filter)}` :
+                        `Pokaži v seznamu ${filterWordSwitch(filter)}`}
                 </button>
+
+                {/* ENOSTAVNO FILTRIRANJE ALI KOMBINACIJA FILTROV */}
+                {/* + POSEBNOSTI */}
+
+                <button
+                    class={"filterCombinationBox flex"}
+                    onClick={() => setKeepArrData(!keepArrData)}>
+                    Kombinirano filtriranje
+                    {keepArrData ?
+                        <img class="filterCombinationIcon" src="../../public/No.svg" /> :
+                        <img class="filterCombinationIcon" src="../../public/Yes.svg" />}
+                </button>
+
+                {/* RESET BTN */}
 
                 <button
                     id="filterResetBtn"
                     class={"noResizeBtn"}
-                    onClick={() => setShownData(sortBackward("id", backup))}>
+                    onClick={() => {
+                        setShownData(defaultFilter);
+                        setData(sortBackward("id", backup));
+                    }}>
                     Obnovi seznam
                 </button>
 

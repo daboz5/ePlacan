@@ -11,13 +11,25 @@
     position: relative;
     max-width: 80%;
     gap: 25px;
-    margin-bottom: 20px;
+    margin-top: 7px;
     border: 1px solid black;
     border-radius: 11px;
     padding: 75px 35px 75px 35px;
     background-color: goldenrod;
     pointer-events: auto;
 }
+
+/* ZAPRI FILTER */
+
+#filterExitBtn {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    font-size: 1.2em;
+    border-radius: 8px 8px 0 0;
+}
+
+/* SMER VSEBINE */
 
 .filterOrientation {
     gap: 25px;
@@ -31,16 +43,42 @@
     font-size: 0.6rem;
 }
 
-.filterSchoolTierBtns {
-    justify-content: space-evenly;
+/* VSEBINSKI FILTRI */
+
+#filterSchoolTierBtns {
+    display: grid;
+    justify-content: center;
+    gap: 12px;
+    grid-template-areas:
+    "exp exp exp"
+    "a b c"
+    "d e f"
+    ". g .";
     width: 100%;
     max-width: 300px;
 }
 
 .schoolTierBtn {
-    font-size: 1.2em;
-    padding: 0.6em 1em;
+    max-width: fit-content;
+    font-size: 1.5em;
+    padding: 0.4em 0.8em;
 }
+
+#filterSchoolTierBtns caption {
+    grid-area: exp;
+    color: black;
+    font-size: 1.45em;
+    font-weight: 700;
+    margin: 0;
+}
+
+#schoolTierBtn1 {grid-area: a;}
+#schoolTierBtn2 {grid-area: b;}
+#schoolTierBtn3 {grid-area: c;}
+#schoolTierBtn4 {grid-area: d;}
+#schoolTierBtn5 {grid-area: e;}
+#schoolTierBtn6 {grid-area: f;}
+#schoolTierBtn7 {grid-area: g;}
 
 .filterInput {
     width: calc(225px - 1.8rem);
@@ -91,20 +129,30 @@
     border-radius: 0 0 8px 8px;
 }
 
+/* KOMBINIRANO FILTRIRANJE */
+
+.filterCombinationBox {
+    align-items: center;
+}
+
+.filterCombinationBox:active {
+    transform: scale(1);
+}
+
+.filterCombinationIcon {
+    max-height: 1.5em;
+    max-width: 1.5em;
+    margin-left: 15px;
+}
+
+/* OBNOVI SEZNAM */
+
 #filterResetBtn {
     position: absolute;
     bottom: 0px;
     width: 100%;
     font-size: 1.2em;
     border-radius: 0 0 8px 8px;
-}
-
-#filterExitBtn {
-    position: absolute;
-    top: 0px;
-    width: 100%;
-    font-size: 1.2em;
-    border-radius: 8px 8px 0 0;
 }
 
 .noResizeBtn:hover {

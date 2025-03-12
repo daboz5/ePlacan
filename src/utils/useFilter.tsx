@@ -6,10 +6,10 @@ export default function useFilter() {
 
     const {
         backup,
+        data,
         shownData,
-        removedData,
+        setData,
         setShownData,
-        setRemovedData,
     } = usePlacanStore();
 
     const [filter, setFilter] = useState<Filters | null>(null);
@@ -23,6 +23,31 @@ export default function useFilter() {
         { bol: 7, status: true }
     ]);
 
+    const filterWordSwitch = (word: Filters) => {
+        let newWord = "";
+        switch (word) {
+            case "job":
+                newWord = "zaposlitve";
+                break;
+            case "hours":
+                newWord = "ure dela";
+                break;
+            case "school":
+                newWord = "šole";
+                break;
+            case "schoolTier":
+                newWord = "stopnjo izobrazbe";
+                break;
+            case "years":
+                newWord = "izkušnje";
+                break;
+            case "pay":
+                newWord = "plače";
+                break;
+            default: newWord = "error";
+        }
+        return newWord;
+    }
 
     // FILTERS
 
@@ -76,7 +101,7 @@ export default function useFilter() {
     const searchRegexStringFilter = (
         type: "job" | "school", regArr: string[], keepData?: boolean
     ) => {
-        const arr = keepData ? shownData : backup;
+        const arr = keepData ? data : backup;
         const filtered = arr.filter(
             (data) => {
                 const extract = data[type].toUpperCase();
@@ -103,7 +128,7 @@ export default function useFilter() {
         if (el) {
             const regArr = searchRegexCreator(el.value);
             const result = searchRegexStringFilter(type, regArr, keepData);
-            setShownData(result);
+            setData(result);
         }
     }
 
@@ -121,9 +146,9 @@ export default function useFilter() {
                 el1.value = value1;
                 el2.value = value2
             }
-            const arr = keepData ? shownData : backup;
+            const arr = keepData ? data : backup;
             const result = arr.filter((data) => Number(data[type]) >= value1 && Number(data[type]) <= value2);
-            setShownData(result);
+            setData(result);
         }
     }
 
@@ -139,16 +164,16 @@ export default function useFilter() {
         const filtered = backup.filter((data) =>
             activeSchoolTiers[data.schoolTier - 1].status
         );
-        setShownData(filtered);
+        setData(filtered);
     }
 
     {/*IZLOČI TIP INFORMACIJE*/ }
     const remoteDataType = (
         type: "id" | "job" | "hours" | "schoolTier" | "school" | "years" | "pay"
     ) => {
-        const data = { ...removedData };
-        data[type] = !data[type];
-        setRemovedData(data);
+        const dataTypes = { ...shownData };
+        dataTypes[type] = !dataTypes[type];
+        setShownData(dataTypes);
     }
 
     return {
@@ -162,5 +187,6 @@ export default function useFilter() {
         changeSchoolTierStatus,
         schoolTierFilter,
         remoteDataType,
+        filterWordSwitch,
     }
 }

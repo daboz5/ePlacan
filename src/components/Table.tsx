@@ -7,6 +7,7 @@ import useBasic from "../utils/useBasic";
 
 import LongTable from "./LongTable";
 import WideTable from "./WideTable";
+import Filter from "./Filter";
 
 import "./table.css";
 
@@ -77,8 +78,8 @@ export default function Table() {
 
     const {
         backup,
-        shownData,
-        setShownData,
+        data,
+        setData,
         setBackup,
     } = usePlacanStore();
 
@@ -86,7 +87,7 @@ export default function Table() {
 
     useEffect(() => {
         setBackup(sortForward("id", fakeData));
-        setShownData(sortBackward("id", fakeData));
+        setData(sortBackward("id", fakeData));
         window.onscroll = function () { scrollFunction() };
     }, []);
 
@@ -105,14 +106,16 @@ export default function Table() {
 
     return (<>
 
+        <Filter />
+
         <LongTable />
 
         <WideTable />
 
-        {shownData.length < 1 ?
+        {data.length < 1 ?
             <button
                 id="emptyTableBtn"
-                onClick={() => setShownData(sortBackward("id", backup))}>
+                onClick={() => setData(sortBackward("id", backup))}>
                 Obnovi seznam
             </button> :
             <></>}

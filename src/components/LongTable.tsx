@@ -1,11 +1,12 @@
 import usePlacanStore from "../usePlacanStore";
+
 import "./table.css";
 
 export default function LongTable() {
 
     const {
+        data,
         shownData,
-        removedData,
         setFilter,
     } = usePlacanStore();
 
@@ -22,7 +23,7 @@ export default function LongTable() {
             </thead>
 
             <tbody>
-                {shownData.map(
+                {data.map(
                     (info) => {
                         return (
                             <>
@@ -33,7 +34,7 @@ export default function LongTable() {
                                         Delo
                                     </td>
                                     <td class={"infoCell"}>
-                                        {!removedData["job"] ? info.job : ""}
+                                        {shownData["job"] ? info.job : ""}
                                     </td>
                                 </tr>
 
@@ -53,9 +54,9 @@ export default function LongTable() {
                                         </span>
                                     </td>
                                     <td class={"infoCell"}>
-                                        {`${!removedData["hours"] ? info.hours + " ur" : ""}
-                                        ${!removedData["hours"] && !removedData["years"] ? " | " : ""}
-                                        ${!removedData["years"] ? `${info.years} let${info.years === 1 ?
+                                        {`${shownData["hours"] ? info.hours + " ur" : ""}
+                                        ${shownData["hours"] && shownData["years"] ? " | " : ""}
+                                        ${shownData["years"] ? `${info.years} let${info.years === 1 ?
                                                 "o" :
                                                 info.years === 2 ?
                                                     "i" :
@@ -74,12 +75,12 @@ export default function LongTable() {
                                         Izobrazba
                                     </td>
                                     <td class={"infoCell"}>
-                                        {!removedData["schoolTier"] ?
+                                        {shownData["schoolTier"] ?
                                             <span class={"block"}>
                                                 {info.schoolTier + ". stopnja"}
                                             </span> :
                                             <></>}
-                                        {!removedData["school"] ?
+                                        {shownData["school"] ?
                                             <span class={"block"}>
                                                 {info.school}
                                             </span> :

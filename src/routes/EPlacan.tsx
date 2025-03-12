@@ -1,6 +1,5 @@
 import { Link } from "preact-router/match"
 
-import Filter from "../components/Filter";
 import Table from "../components/Table";
 
 import "./EPlacan.css";
@@ -23,8 +22,6 @@ export default function EPlacan() {
                 </button>
             </Link>
         </nav>
-
-        <Filter />
 
         <Table />
 
